@@ -20,6 +20,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 # =========================
+# Models must be defined before routes
+# =========================
+class RequestCodeBody(BaseModel):
+    email: EmailStr
+
+class VerifyCodeBody(BaseModel):
+    email: EmailStr
+    code: str
+# =========================
 # Config
 # =========================
 PLACEHOLDER_KEY = ""
@@ -166,13 +175,6 @@ def _send_email_smtp(email: str, code: str):
         server.starttls()
         server.login(SMTP_USER, SMTP_PASS)
         server.send_message(msg)
-
-class RequestCodeBody(BaseModel):
-    email: EmailStr
-
-class VerifyCodeBody(BaseModel):
-    email: EmailStr
-    code: str
 
 @app.post("/auth/request-code")
 async def request_code(body: RequestCodeBody):
