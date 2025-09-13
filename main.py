@@ -10,6 +10,15 @@ import httpx
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, HTTPException, Request, Depends
+
+app = FastAPI(title="Chat Completions Proxy")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],           # keep your permissive CORS
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 # =========================
 # Config
 # =========================
@@ -105,14 +114,6 @@ logger = setup_logging()
 # =========================
 # App
 # =========================
-app = FastAPI(title="Chat Completions Proxy")
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],           # keep your permissive CORS
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 @app.on_event("startup")
 async def _on_startup():
