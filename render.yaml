@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: mactrac-api
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn -w 2 -k uvicorn.workers.UvicornWorker main:app
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false
