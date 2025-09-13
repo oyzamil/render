@@ -11,6 +11,9 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, HTTPException, Request, Depends
 
+from pydantic import BaseModel, EmailStr
+from datetime import datetime, timedelta, timezone
+
 app = FastAPI(title="Chat Completions Proxy")
 
 app.add_middleware(
@@ -143,8 +146,6 @@ async def health():
 # =========================
 # First-run email code flow (new)
 # =========================
-from pydantic import BaseModel, EmailStr
-from datetime import datetime, timedelta, timezone
 
 # super simple in-memory store; replace with Redis/DB if you want durability
 _EMAIL_CODES: dict[str, dict] = {}   # email -> {"code": "123456", "exp": timestamp}
